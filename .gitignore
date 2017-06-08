@@ -1,0 +1,6 @@
+# .gitignore
+
+# Python
+*.pyc
+.python-version
+__pycache__
