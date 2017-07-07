@@ -4,12 +4,14 @@
 import sbb_rs485
 import sys
 import time
-from datetime import datetime
 import subprocess
+
 
 def getch():
     import termios
-    import sys, tty
+    import sys
+    import tty
+
     def _getch():
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
@@ -34,13 +36,20 @@ class bcolors:
 
 
 def log(level, message):
-    if (level==1): pf="[{0}{1}{2}] ".format(bcolors.OKGREEN, "OK", bcolors.ENDC)
-    if (level==4): pf="[{0}{1}{2}]".format(bcolors.FAIL, "FAIL", bcolors.ENDC)
+    if (level == 1):
+        pf = "[{0}{1}{2}] ".format(bcolors.OKGREEN, "OK", bcolors.ENDC,)
+    if (level == 4):
+        pf = "[{0}{1}{2}]".format(bcolors.FAIL, "FAIL", bcolors.ENDC)
     print("{0} {1}".format(pf, message))
 
 
 def fmt_ser(ser):
-    ss = str(hex(ser[0]))[2:].upper() + str(hex(ser[1]))[2:].upper() + str(hex(ser[2]))[2:].upper() + str(hex(ser[3]))[2:].upper()
+    ss = "{0}{1}{2}{3}".format(
+        str(hex(ser[0]))[2:].upper(),
+        str(hex(ser[1]))[2:].upper(),
+        str(hex(ser[2]))[2:].upper(),
+        str(hex(ser[3]))[2:].upper(),
+    )
     return ss
 
 
@@ -60,15 +69,12 @@ def print_label(serial, addr):
     subprocess.check_call(cmd)
 
 
-
-
 def change_addr(cc):
     addr = input("Current module address: {0}".format(bcolors.BOLD))
     print(bcolors.ENDC, end="")
     addr = int(addr)
-    changed = False
     test_ser = cc.get_serial_number(addr)
-    if len(test_ser) !=4:
+    if len(test_ser) != 4:
         print("{0}ERROR:{1} cannot connect to module".format(
             bcolors.FAIL,
             bcolors.ENDC
@@ -109,16 +115,12 @@ def change_addr(cc):
         print_label(ser_hex, new_addr)
 
 
-
-
-
 def ask_for_it(text):
     inp = input("{0} (Y/n): ".format(text))
-    if inp.lower()=="n":
+    if inp.lower() == "n":
         return True
     else:
         return False
-
 
 
 def main():
@@ -137,15 +139,9 @@ def main():
     cc.connect()
     cc.serial.timeout = 2
 
-
     while not exit:
         change_addr(cc)
         exit = ask_for_it("Change another module")
-
-
-
-
-
 
 
 if __name__ == '__main__':

@@ -3,8 +3,6 @@
 
 import sbb_rs485
 import sys
-import time
-from datetime import datetime
 import argparse
 
 
@@ -41,17 +39,12 @@ def main():
     )
     args = parser.parse_args()
 
-    addrs = list(range(args.start,args.end+1))
-    cc = sbb_rs485.PanelAlphanumControl(addresses=addrs, port=args.port )
+    addrs = list(range(args.start, args.end + 1))
+    cc = sbb_rs485.PanelAlphanumControl(addresses=addrs, port=args.port)
     cc.connect()
     cc.set_text(args.text)
     cc.serial.close()
     sys.exit(0)
-
-
-
-
-
 
 
 if __name__ == '__main__':
