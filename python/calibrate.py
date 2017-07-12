@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sbb_rs485
 import sys
+import argparse
+import sbb_rs485
 
 
 def getch():
@@ -56,14 +57,31 @@ def send_msg(msg):
 
 
 def main():
-    cc = sbb_rs485.PanelControl("/dev/ttyUSB3")
+    parser = argparse.ArgumentParser(
+        description="Calibrate a SBB panel",
+    )
+    parser.add_argument(
+        '--port',
+        '-p',
+        help="Serial port",
+        type=str,
+        default='/dev/ttyUSB0',
+    )
+    parser.add_argument(
+        '--address',
+        '-a',
+        help="Address",
+        type=int,
+        default=0,
+    )
+    args = parser.parse_args()
+
+    cc = sbb_rs485.PanelControl(args.port)
     cc.connect()
     cc.serial.timeout = 2
-    addr = input("Module address: {0}".format(bcolors.BOLD))
-    print(bcolors.ENDC, end="")
-    addr = int(addr)
+
     changed = False
-    test_ser = cc.get_serial_number(addr)
+    test_ser = cc.get_serial_number(args.address)
     if len(test_ser) != 4:
         print("ERROR: cannot connect to module")
         sys.exit(1)
@@ -77,7 +95,7 @@ def main():
     if set_pos_before.lower() == "y":
         pos_before = input("Module position: {0}".format(bcolors.BOLD))
         print(bcolors.ENDC, end="")
-        cc.set_position(addr, int(pos_before))
+        cc.set_position(args.address, int(pos_before))
 
     confirm_calib = input(
         "Start calibration process (Y/n): {0}".format(
@@ -89,9 +107,9 @@ def main():
         print("cancelled")
         sys.exit()
 
-    calb_start = cc.pack_msg(b'\xCC', addr)
-    calb_step  = cc.pack_msg(b'\xC6', addr)
-    calb_pulse = cc.pack_msg(b'\xC7', addr)
+    calb_start = cc.pack_msg(b'\xCC', args.address)
+    calb_step  = cc.pack_msg(b'\xC6', args.address)
+    calb_pulse = cc.pack_msg(b'\xC7', args.address)
     cc.send_msg(calb_start)
 
     print("STEP: Press + until a blade falls. Then Press n (press q to exit)")
@@ -121,7 +139,7 @@ def main():
     newpos = input("Current blade position: {0}".format(bcolors.BOLD))
     print(bcolors.ENDC, end="")
     newpos = int(newpos)
-    calb_win = cc.pack_msg(b'\xCB', addr, newpos)
+    calb_win = cc.pack_msg(b'\xCB', args.address, newpos)
     cc.send_msg(calb_win)
     print("Module calibrated")
 
