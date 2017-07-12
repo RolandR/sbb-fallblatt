@@ -160,7 +160,7 @@ class PanelAlphanumControl(PanelControl):
         self.send_multiple(msg)
 
     def set_text(self, text, fill=True):
-        pos  = self.str_to_pos(text)
+        pos = self.str_to_pos(text)
         pos = pos[:self.length]
         if fill:
             pos = self.fill_list(
