@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sbb_rs485
-import sys
+import argparse
 import time
 import subprocess
+import sbb_rs485
 
 
 def getch():
@@ -69,37 +69,29 @@ def print_label(serial, addr):
     subprocess.check_call(cmd)
 
 
-def change_addr(cc):
-    addr = input("Current module address: {0}".format(bcolors.BOLD))
-    print(bcolors.ENDC, end="")
-    addr = int(addr)
-    test_ser = cc.get_serial_number(addr)
+def change_addr(cc, old, new):
+    test_ser = cc.get_serial_number(old)
     if len(test_ser) != 4:
         print("{0}ERROR:{1} cannot connect to module".format(
             bcolors.FAIL,
             bcolors.ENDC
         ))
-        if ask_for_it("Try another module"):
-            sys.exit(0)
-        change_addr(cc)
         return
 
     ser_hex = fmt_ser(test_ser)
 
-    new_addr = input("New Module address: {0}".format(bcolors.BOLD))
-    print(bcolors.ENDC, end="")
     print("Changing address from {0}{1}{2} to {0}{3}{2} on {0}{4}{2}".format(
         bcolors.BOLD,
-        addr,
+        old,
         bcolors.ENDC,
-        new_addr,
+        new,
         ser_hex
     ))
 
-    change_addr_msg = cc.pack_msg(cc.CMD_CHANGE_ADDR, int(addr), int(new_addr))
+    change_addr_msg = cc.pack_msg(cc.CMD_CHANGE_ADDR, int(old), int(new))
     cc.send_msg(change_addr_msg)
     time.sleep(0.5)
-    test_ser2 = cc.get_serial_number(int(new_addr))
+    test_ser2 = cc.get_serial_number(int(new))
     if len(test_ser2) == 4:
         print("{0}OK:{1} change address successful".format(
             bcolors.OKGREEN,
@@ -112,35 +104,55 @@ def change_addr(cc):
         ))
 
     if not ask_for_it("Print a label"):
-        print_label(ser_hex, new_addr)
+        print_label(ser_hex, new)
 
 
 def ask_for_it(text):
-    inp = input("{0} (Y/n): ".format(text))
-    if inp.lower() == "n":
-        return True
-    else:
+    inp = input("{0} (y/N): ".format(text))
+    if inp.lower() == "y":
         return False
+    else:
+        return True
 
 
 def main():
-    try:
-        ttyport = sys.argv[1]
-    except IndexError:
-        ttyport = "/dev/ttyUSB3"
+    parser = argparse.ArgumentParser(
+        description="Set address of a SBB panel",
+    )
+    parser.add_argument(
+        '--port',
+        '-p',
+        help="Serial port",
+        type=str,
+        default='/dev/ttyUSB0',
+    )
+    parser.add_argument(
+        '--old-address',
+        '-o',
+        help="Old address",
+        type=int,
+        default=0,
+    )
+    parser.add_argument(
+        '--new-address',
+        '-n',
+        help="New address",
+        type=int,
+        default=0,
+    )
+    args = parser.parse_args()
 
-    print("Using ttyport: {0}{1}{2}".format(
-        bcolors.BOLD,
-        ttyport,
-        bcolors.ENDC
-    ))
+    cc = sbb_rs485.PanelControl(port=args.port)
+    cc.connect()
+    cc.serial.timeout = 0.1
+
     exit = False
-    cc = sbb_rs485.PanelControl(ttyport)
+    cc = sbb_rs485.PanelControl(args.port)
     cc.connect()
     cc.serial.timeout = 2
 
     while not exit:
-        change_addr(cc)
+        change_addr(cc, args.old_address, args.new_address)
         exit = ask_for_it("Change another module")
 
 
