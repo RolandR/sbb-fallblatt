@@ -23,14 +23,14 @@ def main():
     )
     parser.add_argument(
         '--hour-address',
-        '-h',
+        '-H',
         help="Address of hour module",
         type=int,
         default=0,
     )
     parser.add_argument(
         '--minute-address',
-        '-m',
+        '-M',
         help="Address of minute module",
         type=int,
         default=1,
