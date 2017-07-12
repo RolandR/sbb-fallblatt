@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sbb_rs485
@@ -7,14 +7,13 @@ import argparse
 
 
 def main():
-
     parser = argparse.ArgumentParser(description="Show text on SBB panels")
     parser.add_argument(
         '--port',
         '-p',
         help="Serial port",
         type=str,
-        required=True
+        default='/dev/ttyUSB0',
     )
     parser.add_argument(
         '--start',
