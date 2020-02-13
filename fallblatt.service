@@ -1,0 +1,14 @@
+[Unit]
+Description=Fallblatt Anzeige
+After=network.target
+[Service]
+Type=simple
+# Another Type: forking
+User=pi
+WorkingDirectory=/home/pi/fallblatt/python
+ExecStart=/home/pi/fallblatt/python/listener
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+
+

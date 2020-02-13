@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+nc -lk 0.0.0.0 31337| xargs -I_ sudo ./saysomething.sh "_"
