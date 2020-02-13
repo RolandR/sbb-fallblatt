@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+text="$@"
+
+./set_pos.py -a 96 -l "${text:0:1}"
+./set_pos.py -a 17 -l "${text:1:1}"
+./set_pos.py -a 7 -l  "${text:2:1}"
+./set_pos.py -a 37 -l "${text:3:1}"
+./set_pos.py -a 38 -l "${text:4:1}"
+./set_pos.py -a 78 -l "${text:5:1}"
+./set_pos.py -a 35 -l "${text:6:1}"
+./set_pos.py -a 11 -l "${text:7:1}"
+./set_pos.py -a 14 -l "${text:8:1}"
+./set_pos.py -a 52 -l "${text:9:1}"
+./set_pos.py -a 36 -l "${text:10:1}"
+./set_pos.py -a 21 -l "${text:11:1}"
+./set_pos.py -a 10 -l "${text:12:1}"
+./set_pos.py -a 44 -l "${text:13:1}"
+./set_pos.py -a 5 -l  "${text:14:1}"
+./set_pos.py -a 40 -l "${text:15:1}"

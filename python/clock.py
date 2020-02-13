@@ -6,8 +6,8 @@ import time
 import sbb_rs485
 from datetime import datetime
 
-SBB_MODULE_ADDR_HOUR = 55
-SBB_MODULE_ADDR_MIN  = 56
+SBB_MODULE_ADDR_HOUR = 255
+SBB_MODULE_ADDR_MIN  = 83
 
 
 def main():
