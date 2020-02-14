@@ -164,6 +164,7 @@ class PanelAlphanumControl(PanelControl):
         pos = pos[:self.length]
         if fill:
             pos = self.fill_list(
+				self,
                 pos,
                 self.length,
                 self.POS_BLANK
