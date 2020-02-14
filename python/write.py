@@ -16,20 +16,6 @@ def main():
         default='/dev/ttyUSB0',
     )
     parser.add_argument(
-        '--start',
-        '-s',
-        help="Start address",
-        type=int,
-        required=True
-    )
-    parser.add_argument(
-        '--end',
-        '-e',
-        help="End address",
-        type=int,
-        required=True
-    )
-    parser.add_argument(
         '--text',
         '-t',
         help="End address",
