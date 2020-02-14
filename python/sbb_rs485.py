@@ -58,7 +58,7 @@ class PanelControl:
         self.set_break()
         self.serial.write(msg)
 
-    def send_multiple(self, msgs, sleep_between=False):
+    def send_multiple(self, msgs, sleep_between=True):
         if not self.serial:
             return
         for msg in msgs:
