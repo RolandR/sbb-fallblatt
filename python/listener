@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
-ncat --broker -l  0.0.0.0 31337 & pid=$!
-
-cleanup(){
-  kill $pid
-}
-trap cleanup EXIT
-
-ncat localhost |
-  while read line;do
-    echo "$line"
-    sudo ./saysomething.sh "$line"
-    sleep 6
-  done
-
+nc -lk 0.0.0.0 31337|
+while read line;do
+  echo "$line"
+  sudo ./saysomething.sh "$line"
+  sleep 6
+done
