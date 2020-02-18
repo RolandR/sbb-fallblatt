@@ -102,7 +102,7 @@ def main():
         default=0,
     )
     parser.add_argument(
-        '--new-address',12.0
+        '--new-address',
         '-n',
         help="New address",
         type=int,
