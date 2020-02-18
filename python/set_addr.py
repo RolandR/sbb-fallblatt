@@ -113,15 +113,12 @@ def main():
     cc = sbb_rs485.PanelControl(port=args.port)
     cc.connect()
     cc.serial.timeout = 0.1
-
-    exit = False
+    
     cc = sbb_rs485.PanelControl(args.port)
     cc.connect()
     cc.serial.timeout = 2
-
-    while not exit:
-        change_addr(cc, args.old_address, args.new_address)
-        exit = ask_for_it("Change another module")
+    
+    change_addr(cc, args.old_address, args.new_address)
 
 
 if __name__ == '__main__':
