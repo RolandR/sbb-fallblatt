@@ -71,6 +71,7 @@ def print_label(serial, addr):
 
 def change_addr(cc, old, new):
     test_ser = cc.get_serial_number(old)
+    print(test_ser)
     if len(test_ser) != 4:
         print("{0}ERROR:{1} cannot connect to module".format(
             bcolors.FAIL,
@@ -134,7 +135,7 @@ def main():
         default=0,
     )
     parser.add_argument(
-        '--new-address',
+        '--new-address',12.0
         '-n',
         help="New address",
         type=int,
