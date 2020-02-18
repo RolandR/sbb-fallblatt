@@ -72,7 +72,7 @@ def print_label(serial, addr):
 def change_addr(cc, old, new):
     change_addr_msg = cc.pack_msg(cc.CMD_CHANGE_ADDR, int(old), int(new))
     cc.send_msg(change_addr_msg)
-	print("maybe it worked, maybe not. go see for yourself.")
+    print("maybe it worked, maybe not. go see for yourself.")
 
 
 def ask_for_it(text):
