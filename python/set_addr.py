@@ -70,42 +70,9 @@ def print_label(serial, addr):
 
 
 def change_addr(cc, old, new):
-    test_ser = cc.get_serial_number(old)
-    print(test_ser)
-    if len(test_ser) != 4:
-        print("{0}ERROR:{1} cannot connect to module".format(
-            bcolors.FAIL,
-            bcolors.ENDC
-        ))
-        return
-
-    ser_hex = fmt_ser(test_ser)
-
-    print("Changing address from {0}{1}{2} to {0}{3}{2} on {0}{4}{2}".format(
-        bcolors.BOLD,
-        old,
-        bcolors.ENDC,
-        new,
-        ser_hex
-    ))
-
     change_addr_msg = cc.pack_msg(cc.CMD_CHANGE_ADDR, int(old), int(new))
     cc.send_msg(change_addr_msg)
-    time.sleep(0.5)
-    test_ser2 = cc.get_serial_number(int(new))
-    if len(test_ser2) == 4:
-        print("{0}OK:{1} change address successful".format(
-            bcolors.OKGREEN,
-            bcolors.ENDC
-        ))
-    else:
-        print("{0}ERROR:{1} cannot verify change".format(
-            bcolors.FAIL,
-            bcolors.ENDC
-        ))
-
-    if not ask_for_it("Print a label"):
-        print_label(ser_hex, new)
+	print("maybe it worked, maybe not. go see for yourself.")
 
 
 def ask_for_it(text):
