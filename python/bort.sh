@@ -7,7 +7,7 @@ while [ $counter -le 30 ]
 do
 	echo "renaming $(($counter+100)) to $(($counter))"
 	
-	./change_addr.py -o $(($counter+100)) -n $(($counter))
+	./set_addr.py -o $(($counter+100)) -n $(($counter))
 	((counter++))
 	
 	read -p "Press enter to continue"
