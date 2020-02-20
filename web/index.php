@@ -1,7 +1,11 @@
 
 <?php
 
-exec("python3 /home/pi/fallblatt/python/show_text.py -s 1 -e 30 -t 'hallo'");
+if(isset($_POST["text"])){
+	$text = $_POST["text"];
+	$text = escapeshellarg($text);
+	exec("sudo python3 /home/pi/fallblatt/python/show_text.py -s 1 -e 30 -t $text");
+}
 
 
 ?>
