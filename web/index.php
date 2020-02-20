@@ -47,6 +47,7 @@ if(isset($_POST["text"])){
 				animation-name: cursor;
 				animation-duration: 1s;
 				animation-iteration-count: infinite;
+				animation-timing-function: steps(2);
 			}
 			
 			@keyframes cursor {
@@ -55,14 +56,14 @@ if(isset($_POST["text"])){
 				}
 
 				to {
-					filter: brightness(1.3);
+					filter: brightness(2);
 				}
 			}
 		</style>
 	</head>
 	<body>
 		<form id="inputForm" method="post" action="">
-			<input type="text" id="input" name="text" size="30" maxlength="30">
+			<input autofocus type="text" id="input" name="text" size="30" maxlength="30">
 			<input type="submit" value="Send">
 		</form>
 		<div id="preview"></div>
