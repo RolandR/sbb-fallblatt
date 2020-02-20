@@ -1,7 +1,7 @@
 
 <?php
 
-exec("/home/pi/fallblatt/python/saysomething.sh 'hallo'");
+exec("python3 /home/pi/fallblatt/python/show_text.py -s 1 -e 30 -t 'hallo'");
 
 
 ?>
@@ -39,6 +39,21 @@ exec("/home/pi/fallblatt/python/saysomething.sh 'hallo'");
 				grid-template-columns: repeat(15, 1fr);
 				font-family: SBB;
 			}
+			.segment.active{
+				animation-name: cursor;
+				animation-duration: 1s;
+				animation-iteration-count: infinite;
+			}
+			
+			@keyframes cursor {
+				from {
+					filter: brightness(1);
+				}
+
+				to {
+					filter: brightness(1.3);
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -63,6 +78,8 @@ exec("/home/pi/fallblatt/python/saysomething.sh 'hallo'");
 			segments.push(segment);
 			preview.appendChild(segment);
 		}
+		
+		segments[0].className += " active";
 		
 		
 		input.addEventListener("input", function(){
