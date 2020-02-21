@@ -52,11 +52,11 @@ if(isset($_POST["text"])){
 			
 			@keyframes cursor {
 				from {
-					filter: brightness(1);
+					filter: brightness(2);
 				}
 
 				to {
-					filter: brightness(2);
+					filter: brightness(1);
 				}
 			}
 		</style>
@@ -84,10 +84,23 @@ if(isset($_POST["text"])){
 			preview.appendChild(segment);
 		}
 		
-		segments[0].className += " active";
+		segments[0].classList.add("active");
+		let active = segments[0];
 		
 		
-		input.addEventListener("input", function(){
+		input.addEventListener("input", updatePreview);
+		document.addEventListener("selectionchange", updatePreview);
+		
+		function updatePreview(){
+			if(active){
+				active.classList.remove("active");
+			}
+			active = segments[input.selectionStart];
+			if(input.selectionStart < segmentCount){
+				active.classList.add("active");
+			} else {
+				active = null;
+			}
 			let text = input.value;
 			text = text.replace(/[^a-zA-Z0-9\-\.\/ ]/g, " ");
 			text = text.substring(0, lineLength*lineCount);
@@ -96,6 +109,6 @@ if(isset($_POST["text"])){
 				console.log(i);
 				segments[i].innerHTML = text.substr(i, 1);
 			}
-		});
+		}
 	</script>
 </html>
