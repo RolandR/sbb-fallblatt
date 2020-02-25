@@ -62,7 +62,7 @@ if(isset($_POST["text"])){
 		</style>
 	</head>
 	<body>
-		<form id="inputForm" method="post" action="">
+		<form id="inputForm" method="post" action="" autocomplete="off">
 			<input autofocus type="text" id="input" name="text" size="30" maxlength="30">
 			<input type="submit" value="Send">
 		</form>
