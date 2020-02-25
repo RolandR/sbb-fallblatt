@@ -4,7 +4,7 @@
 if(isset($_POST["text"])){
 	$text = $_POST["text"];
 	$text = escapeshellarg($text);
-	exec("python3 /home/pi/fallblatt/python/show_text.py -s 1 -e 30 -t $text");
+	exec("python3 /home/pi/fallblatt/python/show_text.py --start=1 --end=30 --text=$text");
 }
 
 
