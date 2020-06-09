@@ -1,10 +1,13 @@
 
 <?php
 
+//$command_path = "/home/pi/fallblatt/python/show_text.py";
+$command_path = "/home/roland/Documents/projects/sbb-fallblatt/python/show_text.py";
+
 if(isset($_POST["text"])){
 	$text = $_POST["text"];
 	$text = escapeshellarg($text);
-	exec("python3 /home/pi/fallblatt/python/show_text.py --start=1 --end=30 --text=$text");
+	exec("python3 $command_path --start=1 --end=30 --text=$text");
 }
 
 
